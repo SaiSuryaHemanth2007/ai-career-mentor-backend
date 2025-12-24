@@ -1,89 +1,53 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
-<<<<<<< HEAD
-from utils import CareerRequest, analyze_career
+# --------------------
+# Request Model
+# --------------------
+class CareerRequest(BaseModel):
+    interest: str
+    education_level: str
 
-# Create FastAPI app
-=======
->>>>>>> 7efecce (Clean requirements and stabilize backend)
+# --------------------
+# FastAPI App
+# --------------------
 app = FastAPI(
     title="AI Career Mentor API",
     description="Backend API for Imagine Cup AI Career Mentor MVP",
     version="1.0.0"
 )
 
-<<<<<<< HEAD
-# Enable CORS (for frontend connection later)
+# --------------------
+# CORS (allow frontend)
+# --------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # allow all origins for now
-=======
-# ✅ Allow frontend (Azure Static Web Apps)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # OK for MVP / demo
->>>>>>> 7efecce (Clean requirements and stabilize backend)
+    allow_origins=["*"],   # later you can restrict this
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ✅ REQUEST MODEL — MUST MATCH FRONTEND
-class CareerRequest(BaseModel):
-    interest: str
-    education_level: str
-
-
+# --------------------
+# Root test
+# --------------------
 @app.get("/")
 def root():
-<<<<<<< HEAD
-    return {
-        "message": "AI Career Mentor Backend is running",
-        "status": "success"
-    }
-=======
-    return {"status": "AI Career Mentor Backend Running"}
+    return {"status": "AI Career Mentor backend running"}
 
->>>>>>> 7efecce (Clean requirements and stabilize backend)
-
-@app.get("/health")
-def health():
-<<<<<<< HEAD
-    return {"health": "ok"}
-
-# Main career analysis endpoint
+# --------------------
+# Career Advice Endpoint
+# --------------------
 @app.post("/api/career-advice")
 def career_advice(request: CareerRequest):
-    """
-    Accepts user interest + background and returns AI-based career advice
-    """
-    result = analyze_career(request)
-    return result
-=======
-    return {"status": "healthy"}
+    interest = request.interest
+    education = request.education_level
 
+    advice = (
+        f"Based on your interest in {interest} and your education level "
+        f"as a {education}, focus on Python, cloud fundamentals, "
+        f"machine learning basics, and building real-world projects."
+    )
 
-@app.post("/api/career-advice")
-def career_advice(req: CareerRequest):
-    advice = f"""
-You are a {req.education_level} interested in {req.interest}.
-
-🎯 Suggested Career Roadmap:
-
-1️⃣ Strengthen Python fundamentals  
-2️⃣ Learn Data Structures & Algorithms  
-3️⃣ Understand Machine Learning basics  
-4️⃣ Explore Cloud Computing (Azure / AWS)  
-5️⃣ Build real-world AI + Cloud projects  
-6️⃣ Participate in hackathons like Imagine Cup  
-7️⃣ Create a strong GitHub & LinkedIn profile  
-
-🚀 You are on the right path — keep building consistently!
-"""
-
-    return {
-        "advice": advice.strip()
-    }
->>>>>>> 7efecce (Clean requirements and stabilize backend)
+    return {"advice": advice}

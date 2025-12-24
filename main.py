@@ -23,41 +23,38 @@ app = FastAPI(
 # --------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict later if needed
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # --------------------
-# Root test
+# Root health check
 # --------------------
 @app.get("/")
 def root():
-    return {"status": "AI Career Mentor backend running successfully"}
+    return {
+        "status": "AI Career Mentor backend running",
+        "version": "1.0.0"
+    }
 
 # --------------------
-# Career Advice Endpoint (IMAGINE CUP VERSION)
+# Career Advice Endpoint
 # --------------------
 @app.post("/api/career-advice")
 def career_advice(data: CareerRequest):
     interest = data.interest
     level = data.education_level
 
-    # --------------------
-    # Short Chat-Friendly Summary (UI response)
-    # --------------------
-    summary = (
-        f"You're a {level} interested in {interest}. "
-        "Focus first on Python, DSA, Git/GitHub, and Azure fundamentals. "
-        "Build 2–3 strong projects in Year 1, then move to AI, FastAPI, "
-        "and Azure AI services in Year 2. I can share a detailed roadmap anytime."
-    )
+    summary = f"""
+🎓 2-Year AI + Cloud Career Roadmap
 
-    # --------------------
-    # Detailed Roadmap (Deep guidance)
-    # --------------------
-    detailed_roadmap = f"""
+Focus on Python, Azure Cloud, Machine Learning basics,
+real-world projects, and certifications for strong placements.
+"""
+
+    detailed = f"""
 🎓 Personalized 2-Year Career Roadmap
 
 📌 Your Profile
@@ -65,10 +62,10 @@ def career_advice(data: CareerRequest):
 • Interest: {interest}
 
 ━━━━━━━━━━━━━━━━━━
-📅 YEAR 1 – Foundations
+📅 YEAR 1 — Foundations
 ━━━━━━━━━━━━━━━━━━
 🔹 Skills
-• Python (Core + OOP)
+• Python (core + OOP)
 • Data Structures & Algorithms
 • Git & GitHub
 • Cloud Fundamentals (Azure)
@@ -76,10 +73,10 @@ def career_advice(data: CareerRequest):
 🔹 Projects
 • Resume Analyzer (Python)
 • Student Management System
-• Cloud-hosted Static Website (Azure)
+• Cloud-hosted Static Website
 
 ━━━━━━━━━━━━━━━━━━
-📅 YEAR 2 – Specialization
+📅 YEAR 2 — Specialization
 ━━━━━━━━━━━━━━━━━━
 🔹 Skills
 • Machine Learning Basics
@@ -88,8 +85,8 @@ def career_advice(data: CareerRequest):
 • Azure AI Services
 
 🔹 Projects
-• AI Career Mentor (this MVP)
-• AI-powered Chatbot
+• AI Career Mentor (this project)
+• AI Chatbot using APIs
 • Cloud-based AI Application
 
 ━━━━━━━━━━━━━━━━━━
@@ -102,13 +99,13 @@ def career_advice(data: CareerRequest):
 ━━━━━━━━━━━━━━━━━━
 🎯 Final Outcome
 ━━━━━━━━━━━━━━━━━━
+✔ Real-world AI + Cloud projects  
 ✔ Strong GitHub portfolio  
-✔ Real-world AI & Cloud projects  
 ✔ Industry-recognized certifications  
 ✔ Internship & placement readiness
 """
 
     return {
-        "summary": summary,
-        "detailed": detailed_roadmap
+        "summary": summary.strip(),
+        "detailed": detailed.strip()
     }

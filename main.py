@@ -3,16 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from utils import CareerRequest, analyze_career
 
+# Create FastAPI app
 app = FastAPI(
     title="AI Career Mentor API",
     description="Backend API for Imagine Cup AI Career Mentor MVP",
     version="1.0.0"
 )
 
-# Enable CORS (for frontend later)
+# Enable CORS (for frontend connection later)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # allow all origins for now
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -22,27 +23,20 @@ app.add_middleware(
 @app.get("/")
 def root():
     return {
-        "message": "AI Career Mentor API is running 🚀"
+        "message": "AI Career Mentor Backend is running",
+        "status": "success"
     }
 
 # Health check endpoint
 @app.get("/health")
-def health_check():
-    return {
-        "status": "healthy"
-    }
+def health():
+    return {"health": "ok"}
 
-# Career analysis endpoint
-@app.post("/analyze-career")
-async def analyze(data: CareerRequest):
-    result = analyze_career(data)
+# Main career analysis endpoint
+@app.post("/api/career-advice")
+def career_advice(request: CareerRequest):
+    """
+    Accepts user interest + background and returns AI-based career advice
+    """
+    result = analyze_career(request)
     return result
-import os
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 8000))
-    )

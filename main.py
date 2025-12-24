@@ -23,7 +23,7 @@ app = FastAPI(
 # --------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # later you can restrict this
+    allow_origins=["*"],  # Restrict later if needed
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,53 +34,66 @@ app.add_middleware(
 # --------------------
 @app.get("/")
 def root():
-    return {"status": "AI Career Mentor backend running"}
+    return {"status": "AI Career Mentor backend running successfully"}
 
 # --------------------
-# Career Advice Endpoint
+# Career Advice Endpoint (IMAGINE CUP VERSION)
 # --------------------
 @app.post("/api/career-advice")
 def career_advice(data: CareerRequest):
     interest = data.interest
     level = data.education_level
 
-    advice = f"""
+    # --------------------
+    # Short Chat-Friendly Summary (UI response)
+    # --------------------
+    summary = (
+        f"You're a {level} interested in {interest}. "
+        "Focus first on Python, DSA, Git/GitHub, and Azure fundamentals. "
+        "Build 2–3 strong projects in Year 1, then move to AI, FastAPI, "
+        "and Azure AI services in Year 2. I can share a detailed roadmap anytime."
+    )
+
+    # --------------------
+    # Detailed Roadmap (Deep guidance)
+    # --------------------
+    detailed_roadmap = f"""
 🎓 Personalized 2-Year Career Roadmap
 
-📌 Your Profile:
+📌 Your Profile
 • Education Level: {level}
 • Interest: {interest}
 
 ━━━━━━━━━━━━━━━━━━
-📅 YEAR 1 (Foundations)
+📅 YEAR 1 – Foundations
 ━━━━━━━━━━━━━━━━━━
-🔹 Skills:
-• Python (core + OOP)
+🔹 Skills
+• Python (Core + OOP)
 • Data Structures & Algorithms
 • Git & GitHub
 • Cloud Fundamentals (Azure)
 
-🔹 Projects:
+🔹 Projects
 • Resume Analyzer (Python)
 • Student Management System
-• Cloud-hosted Static Website
+• Cloud-hosted Static Website (Azure)
 
 ━━━━━━━━━━━━━━━━━━
-📅 YEAR 2 (Specialization)
+📅 YEAR 2 – Specialization
 ━━━━━━━━━━━━━━━━━━
-🔹 Skills:
+🔹 Skills
 • Machine Learning Basics
 • AI APIs & Prompt Engineering
 • FastAPI & Backend Development
 • Azure AI Services
 
-🔹 Projects:
-• AI Career Mentor (this project)
-• Chatbot using AI APIs
+🔹 Projects
+• AI Career Mentor (this MVP)
+• AI-powered Chatbot
 • Cloud-based AI Application
 
 ━━━━━━━━━━━━━━━━━━
-🎓 Recommended Certifications
+🎓 Certifications
 ━━━━━━━━━━━━━━━━━━
 • Microsoft Azure AI Fundamentals
 • Microsoft Azure Developer Associate
@@ -89,11 +102,13 @@ def career_advice(data: CareerRequest):
 ━━━━━━━━━━━━━━━━━━
 🎯 Final Outcome
 ━━━━━━━━━━━━━━━━━━
-By the end of 2 years, you will have:
-✔ Real-world AI + Cloud projects  
 ✔ Strong GitHub portfolio  
+✔ Real-world AI & Cloud projects  
 ✔ Industry-recognized certifications  
 ✔ Internship & placement readiness
 """
 
-    return {"advice": advice}
+    return {
+        "summary": summary,
+        "detailed": detailed_roadmap
+    }

@@ -46,18 +46,44 @@ def root():
 def career_advice(data: CareerRequest):
     interest = data.interest
     level = data.education_level
+    interest_lower = interest.lower()
 
-    # ✅ SUMMARY (NO EMOJIS – PROFESSIONAL)
-    summary = f"""
-2-Year AI and Cloud Career Roadmap
-
-This roadmap is designed for a {level.lower()} interested in {interest.lower()}.
-It focuses on building strong programming fundamentals, cloud expertise,
-applied machine learning skills, and real-world project experience to prepare
-for internships and full-time roles.
+    # --------------------
+    # SUMMARY (NO EMOJIS)
+    # --------------------
+    if "project" in interest_lower:
+        summary = """
+Building strong, resume-ready projects is essential for demonstrating
+practical AI and Cloud skills. Focus on end-to-end applications that
+showcase problem-solving, backend development, and cloud deployment.
 """.strip()
 
-    # ✅ DETAILED ROADMAP (EMOJIS ONLY HERE)
+    elif "certification" in interest_lower:
+        summary = """
+Professional certifications help validate your AI and Cloud knowledge.
+Start with foundational certifications and gradually move to role-based
+certifications to strengthen your placement readiness.
+""".strip()
+
+    elif "internship" in interest_lower:
+        summary = """
+Securing AI and Cloud internships requires hands-on projects, a strong
+GitHub profile, and basic cloud deployment experience. Practical skills
+and consistent applications are key to success.
+""".strip()
+
+    else:
+        summary = f"""
+2-Year AI and Cloud Career Roadmap
+
+This roadmap is designed for a {level.lower()} interested in {interest_lower}.
+It focuses on strong programming fundamentals, cloud expertise, applied
+machine learning skills, and real-world project experience.
+""".strip()
+
+    # --------------------
+    # DETAILED ROADMAP (EMOJIS ONLY HERE)
+    # --------------------
     detailed = f"""
 🎓 Personalized 2-Year Career Roadmap
 

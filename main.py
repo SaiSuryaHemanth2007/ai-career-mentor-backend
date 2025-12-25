@@ -19,7 +19,7 @@ app = FastAPI(
 )
 
 # --------------------
-# CORS (allow frontend)
+# CORS
 # --------------------
 app.add_middleware(
     CORSMiddleware,
@@ -30,7 +30,7 @@ app.add_middleware(
 )
 
 # --------------------
-# Root health check
+# Health Check
 # --------------------
 @app.get("/")
 def root():
@@ -47,27 +47,31 @@ def career_advice(data: CareerRequest):
     interest = data.interest
     level = data.education_level
 
+    # ✅ SUMMARY (NO EMOJIS – PROFESSIONAL)
     summary = f"""
-🎓 2-Year AI + Cloud Career Roadmap
+2-Year AI and Cloud Career Roadmap
 
-Focus on Python, Azure Cloud, Machine Learning basics,
-real-world projects, and certifications for strong placements.
-"""
+This roadmap is designed for a {level.lower()} interested in {interest.lower()}.
+It focuses on building strong programming fundamentals, cloud expertise,
+applied machine learning skills, and real-world project experience to prepare
+for internships and full-time roles.
+""".strip()
 
+    # ✅ DETAILED ROADMAP (EMOJIS ONLY HERE)
     detailed = f"""
 🎓 Personalized 2-Year Career Roadmap
 
-📌 Your Profile
+📌 Profile
 • Education Level: {level}
 • Interest: {interest}
 
 ━━━━━━━━━━━━━━━━━━
-📅 YEAR 1 — Foundations
+📅 Year 1 – Foundations
 ━━━━━━━━━━━━━━━━━━
 🔹 Skills
-• Python (core + OOP)
-• Data Structures & Algorithms
-• Git & GitHub
+• Python (core and object-oriented programming)
+• Data Structures and Algorithms
+• Git and GitHub
 • Cloud Fundamentals (Azure)
 
 🔹 Projects
@@ -76,12 +80,12 @@ real-world projects, and certifications for strong placements.
 • Cloud-hosted Static Website
 
 ━━━━━━━━━━━━━━━━━━
-📅 YEAR 2 — Specialization
+📅 Year 2 – Specialization
 ━━━━━━━━━━━━━━━━━━
 🔹 Skills
 • Machine Learning Basics
-• AI APIs & Prompt Engineering
-• FastAPI & Backend Development
+• AI APIs and Prompt Engineering
+• FastAPI and Backend Development
 • Azure AI Services
 
 🔹 Projects
@@ -94,18 +98,17 @@ real-world projects, and certifications for strong placements.
 ━━━━━━━━━━━━━━━━━━
 • Microsoft Azure AI Fundamentals
 • Microsoft Azure Developer Associate
-• (Optional) Google ML Crash Course
+• Optional: Google Machine Learning Crash Course
 
 ━━━━━━━━━━━━━━━━━━
-🎯 Final Outcome
+🎯 Outcome
 ━━━━━━━━━━━━━━━━━━
-✔ Real-world AI + Cloud projects  
-✔ Strong GitHub portfolio  
-✔ Industry-recognized certifications  
-✔ Internship & placement readiness
-"""
+• Real-world AI and cloud projects
+• Strong GitHub portfolio
+• Internship and placement readiness
+""".strip()
 
     return {
-        "summary": summary.strip(),
-        "detailed": detailed.strip()
+        "summary": summary,
+        "detailed": detailed
     }

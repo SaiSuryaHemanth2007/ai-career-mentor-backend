@@ -106,11 +106,6 @@ real-world projects, and certifications for strong placements.
 """
 
     return {
-    "summary": f"""2-Year AI + Cloud Career Roadmap
-
-Focus on Python, Azure Cloud, Machine Learning basics,
-real-world projects, and certifications for strong placements.""",
-
-    "detailed": advice
-}
-
+        "summary": summary.strip(),
+        "detailed": detailed.strip()
+    }

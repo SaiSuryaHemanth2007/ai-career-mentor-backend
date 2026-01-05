@@ -37,13 +37,15 @@ class CareerRequest(BaseModel):
     education_level: str
 
 # --------------------------------------------------
-# Input Cleanup Layer (SPELL FIX)
+# Input Cleanup Layer (SPELL FIX + NORMALIZATION)
 # --------------------------------------------------
 COMMON_FIXES = {
     "dipolma": "Diploma",
     "btech": "BTech",
     "cybersecutiy": "Cybersecurity",
     "cyber security": "Cybersecurity",
+    "ai": "Artificial Intelligence",
+    "ml": "Machine Learning",
 }
 
 def clean_text(text: str) -> str:
@@ -79,30 +81,32 @@ def generate_fallback(interest: str, level: str, duration: int = 2):
 
 🎓 Profile
 • Education Level: {level}
-• Interest: {interest}
+• Career Interest: {interest}
 
 ━━━━━━━━━━━━━━━━━━
 📅 Year 1 – Foundations
 ━━━━━━━━━━━━━━━━━━
 • Core fundamentals of {interest}
-• Python programming
+• Python programming basics
 • Data Structures & Algorithms
 • Git & GitHub
 • Cloud fundamentals
+• Mini projects and practice
 
 ━━━━━━━━━━━━━━━━━━
 📅 Year 2 – Specialization
 ━━━━━━━━━━━━━━━━━━
 • Advanced {interest} concepts
-• Backend development (FastAPI)
-• Cloud deployment
-• Capstone project
+• Backend development using FastAPI
+• Cloud deployment and services
+• End-to-end capstone project
+• Real-world problem solving
 
 ━━━━━━━━━━━━━━━━━━
 🎯 Outcomes
 ━━━━━━━━━━━━━━━━━━
-• Strong portfolio
 • Industry-ready skills
+• Strong GitHub portfolio
 • Internship & placement readiness
 """.strip()
 
@@ -117,8 +121,8 @@ def career_advice(data: CareerRequest):
     level = clean_text(data.education_level)
 
     summary, detailed = generate_fallback(
-        interest,
-        level,
+        interest=interest,
+        level=level,
         duration=2
     )
 

@@ -1,7 +1,4 @@
 fastapi
 uvicorn
-gunicorn
-pydantic
 python-dotenv
-openai
-azure-ai-textanalytics
+pydantic

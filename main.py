@@ -1,13 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from dotenv import load_dotenv
 import re
-
-# --------------------------------------------------
-# Load environment variables
-# --------------------------------------------------
-load_dotenv()
 
 # --------------------------------------------------
 # FastAPI App
@@ -15,7 +9,7 @@ load_dotenv()
 app = FastAPI(
     title="AI Career Mentor API",
     description="Backend API for AI Career Mentor",
-    version="3.3.0",
+    version="4.0.0",
 )
 
 # --------------------------------------------------
@@ -37,15 +31,16 @@ class CareerRequest(BaseModel):
     education_level: str
 
 # --------------------------------------------------
-# Input Cleanup Layer (SPELL FIX + NORMALIZATION)
+# Input Cleanup & Normalization Layer
+# (Honest, deterministic, production-safe)
 # --------------------------------------------------
 COMMON_FIXES = {
     "dipolma": "Diploma",
     "btech": "BTech",
     "cybersecutiy": "Cybersecurity",
-    "cyber security": "Cybersecurity",
-    "ai": "Artificial Intelligence",
-    "ml": "Machine Learning",
+    "cybersectutiiiy": "Cybersecurity",
+    "ai and cloud": "AI and Cloud Computing",
+    "cloud ai": "AI and Cloud Computing",
 }
 
 def clean_text(text: str) -> str:
@@ -60,14 +55,14 @@ def clean_text(text: str) -> str:
 def health_check():
     return {
         "status": "AI Career Mentor backend running",
-        "ai_provider": "fallback",
-        "version": "3.3.0",
+        "ai_provider": "rule-based (AI-ready)",
+        "version": "4.0.0",
     }
 
 # --------------------------------------------------
-# Dynamic Fallback Generator (CLEAN OUTPUT)
+# Roadmap Generator (FINAL LOGIC)
 # --------------------------------------------------
-def generate_fallback(interest: str, level: str, duration: int = 2):
+def generate_roadmap(interest: str, level: str, duration: int = 2):
     summary = (
         f"This is a {duration}-year structured career roadmap designed for a "
         f"{level} student aiming to build strong fundamentals and job-ready skills "
@@ -91,7 +86,7 @@ def generate_fallback(interest: str, level: str, duration: int = 2):
 • Data Structures & Algorithms
 • Git & GitHub
 • Cloud fundamentals
-• Mini projects and practice
+• Mini projects and hands-on practice
 
 ━━━━━━━━━━━━━━━━━━
 📅 Year 2 – Specialization
@@ -120,7 +115,7 @@ def career_advice(data: CareerRequest):
     interest = clean_text(data.interest)
     level = clean_text(data.education_level)
 
-    summary, detailed = generate_fallback(
+    summary, detailed = generate_roadmap(
         interest=interest,
         level=level,
         duration=2
@@ -129,5 +124,5 @@ def career_advice(data: CareerRequest):
     return {
         "summary": summary,
         "detailed": detailed,
-        "ai_provider": "fallback",
+        "ai_provider": "fallback (Azure OpenAI ready)",
     }
